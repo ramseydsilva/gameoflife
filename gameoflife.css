@@ -7,5 +7,5 @@ table { margin: 20px auto; text-align: center; border-collapse: collapse; }
 #links { text-align: center; margin: 0 auto; }
 td { cursor: pointer; padding: 0; width: 7px; height: 7px; border: 1px solid black !important; background-color: #999; }
 td.alive { background-color: #111; }
-a.btn, div.btn { margin: 4px 0; clear: both; display: block; }
+a.btn, div.btn { margin: 4px 0; clear: both; }
 input.error { background-color: red; }
