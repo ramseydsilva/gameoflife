@@ -8,6 +8,7 @@ var cells = [],
     iterationScore = 0,
     player = {},
     playerId = '',
+    cellSize = 10,
     input = {
         size: 100,
         alive: [[2,3], [5,6], [5,7], [6,5], [10, 10], [11, 10], [12, 10],
@@ -44,39 +45,78 @@ Meteor.startup(function() {
 $(document).ready(function() {
 
     // do setup
+    var canvas = $("canvas")[0];
+    var context = canvas.getContext("2d");
+
     var setup = function() {
-        $('#main').html('');
-        var table = '<table></table>';
+        canvas.width = cellSize * input.size;
+        canvas.height = cellSize * input.size;
+
+        function renderGrid(gridPixelSize, color)
+        {
+            context.save();
+            context.lineWidth = 1;
+            context.strokeStyle = '#000';
+
+            // horizontal grid lines
+            for(var i = 0; i <= input.size; i++)
+            {
+                context.beginPath();
+                context.moveTo(0, i*gridPixelSize);
+                context.lineTo(input.size*gridPixelSize, i*gridPixelSize);
+                context.stroke();
+                context.closePath();
+            }
+
+            // vertical grid lines
+            for(var j = 0; j <= input.size; j++)
+            {
+                context.beginPath();
+                context.moveTo(j*gridPixelSize, 0);
+                context.lineTo(j*gridPixelSize, input.size*gridPixelSize);
+                context.stroke();
+                context.closePath();
+            }
+
+            context.restore();
+        }
+
+        renderGrid(cellSize, "red");
+
         _.each(_.range(input.size), function(row_index) {
-            var tr = '<tr></tr>';
             cells[row_index] = [];
             _.each(_.range(input.size), function(col_index) {
                 var isAlive = input.alive.filter(function(alive) { return alive[0] == row_index && alive[1] == col_index } ).length > 0;
-                var td = '<td loc="' + row_index + ',' + col_index + '" class="'
-                    + (isAlive ? 'alive' : '')
-                    + '"></td>';
-                tr = $(tr).append(td);
                 cells[row_index][col_index] = (isAlive ? 1 : 0);
+                if (isAlive) {
+                    context.moveTo(0, 0)
+                    context.rect(col_index*cellSize, row_index*cellSize, cellSize, cellSize);
+                    context.fillStyle = "black";
+                    context.fill();
+                }
                 cellsList.push({
                     row: row_index,
                     col: col_index
                 });
             });
-            table = $(table).append(tr);
         });
-        $('#main').append(table);
     }
     setup();
 
     var toggleState = function(args, next) {
         var row = args[0], col = args[1];
         cells[row][col] = Number(!cells[row][col]);
-        var td = $('td[loc="'+row+','+col+'"]');
-        if (td.hasClass('alive')) {
-            td.removeClass('alive');
-        } else {
-            td.addClass('alive');
-        }
+
+        if (!!cells[row][col])
+            color = "black";
+        else
+            color = "white";
+
+        context.moveTo(0, 0)
+        context.rect(col*cellSize, row*cellSize, cellSize, cellSize);
+        context.fillStyle = color;
+        context.fill();
+
         if (next) next();
     }
 
