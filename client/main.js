@@ -17,7 +17,7 @@ var cells = [],
     };
 
 var createNewPlayer = function() {
-    for (var i=0; i++; i<1000) {
+    for (var i=1; i++; i<1000) {
         if (!Players.find({name: 'Anonymous ' +  i}).count()) {
             score = 0;
             player = {name: 'Anonymous ' + i, score: 0, lastUpdated: Date.now() };

@@ -38,7 +38,6 @@ if (Meteor.isServer) {
         Players.find({}, {sort: {'score': -1}, limit: 20}).forEach(function(player) {
             topPlayersArray.push(player._id);
         });
-        console.log(topPlayersArray);
         Players.remove({lastUpdated: {$lte: Date.now() - (60*1000)}, _id: {$nin: topPlayersArray}});
         return Players.find({}, {sort: {'score': -1}});
     });
@@ -46,7 +45,7 @@ if (Meteor.isServer) {
     Meteor.publish("player", function(playerId) {
         currentPlayerId = playerId;
         this._session.socket.on("close", Meteor.bindEnvironment(function() {
-            console.log('socket closed');
+            // socket disconnected
         }));
     });
 }
