@@ -1,0 +1,15 @@
+{
+  "meteor": {},
+  "dependencies": {
+    "basePackages": {
+      "async": {}
+    },
+    "packages": {
+      "async": {
+        "git": "https://github.com/peerlibrary/meteor-async.git",
+        "tag": "v0.2.9.3",
+        "commit": "e95ab2eadd39c78261db3f8ef96bcb9e0b36bd81"
+      }
+    }
+  }
+}
