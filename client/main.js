@@ -164,7 +164,8 @@ $(document).ready(function() {
             {
                 method: 'feed',
                 name: 'Conway\'s game of life',
-                caption: 'I scored '+ score + 'on Conway\'s game of life!',
+                caption: 'I scored '+ Math.round(score) + ' points on Conway\'s Game of Life!',
+                description: 'Dare you to beat my score :P',
                 link: 'http://gameoflife.ramseydsilva.com'
             }
         );
